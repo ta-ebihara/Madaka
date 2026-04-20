@@ -30,6 +30,13 @@ public class LoginController {
         this.loginService = loginService;
     }
 
+	/**
+	 * ログイン画面初期表示。
+	 *
+	 * @param session ログイン情報
+	 * @return ログイン画面初期表示
+	 *
+	 */
 	@RequestMapping("/login")
 	public String open( Model model,HttpSession session) {
 		model.addAttribute("screenName", Const.screenName);
@@ -37,6 +44,16 @@ public class LoginController {
 		session.invalidate();
 	    return "login";
 	  }
+
+	/**
+	 * ログイン処理を行い、認証結果に応じて画面遷移を行う。
+	 *
+	 * @param model   画面へ値を渡すためのModel
+	 * @param form    ログインフォーム用のフォームクラス
+	 * @param session ログイン情報
+	 * @return メインメニュー、エラー時はログイン画面
+	 *
+	 */
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String login( Model model,@ModelAttribute LoginForm form, HttpSession session) {
 		loginInfo(form, session);
@@ -48,6 +65,15 @@ public class LoginController {
 		}
 		return "redirect:/madaka/menu";
 	}
+
+	/**
+	 * ログイン情報及びマスタ情報取得
+	 *
+	 * @param form ログインフォーム用のフォームクラス
+	 * @param session ログイン情報
+	 * @return ログイン情報、マスタ情報
+	 *
+	 */
 	@ResponseBody
 	public  void loginInfo(@ModelAttribute LoginForm form, HttpSession session) {
 		LoginResponse response = loginService.login(form);
