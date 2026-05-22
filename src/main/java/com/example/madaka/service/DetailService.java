@@ -9,14 +9,13 @@ import com.example.madaka.response.DetailResponse;
 
 /**
  * @author yu-kudo
- * 検索画面のserviceクラス
+ * 詳細画面のserviceクラス
  */
 @Component
 public class DetailService {
 
 	@Autowired
 	DetailMapper detailMapper;
-
 
 	/**
 	 * 遅刻IDで遅刻情報を取得
@@ -42,5 +41,22 @@ public class DetailService {
     	detailForm.setStartTime(detailInfo.getStart_time());
     	detailForm.setTrainDelayMinutes(detailInfo.getTrain_delay_min());
     	detailForm.setTrainName(detailInfo.getTrain_name());
+    }
+
+    /**
+     * 到着処理（遅刻時間更新）
+     * @param lateId
+     * @param lateMin
+     * @return true=更新処理成功
+     */
+    public boolean isArrivedUpdate(String lateId, long lateMin) {
+    	boolean updateSuccess = false;
+    	int updateCount = detailMapper.updateArrival(lateId, lateMin);
+
+    	if (updateCount <= 1) {
+    		updateSuccess = true;
+    	}
+
+    	return updateSuccess;
     }
 }

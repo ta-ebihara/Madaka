@@ -5,28 +5,33 @@
 
 <mapper namespace="com.example.madaka.mapper.DetailMapper">
 
-	<select id="selectByLateId" resultType="com.example.madaka.response.DetailResponse">
-	    SELECT
-	        lat.late_id,
-	        emp.emp_id,
-	        CONCAT(emp.emp_lname, ' ', emp.emp_fname) AS emp_name,
-	        lat.late_datetime,
-	        lat.late_reason,
-	        lat.late_min,
-	        lat.train_delay_min,
-	        tra.train_name,
-	        lat.start_time,
-	        lat.update_datetime,
-	        lat.note
-	    FROM
-	        madaka.late_his_tbl AS lat
-	    INNER JOIN madaka.employee_mst AS emp
-	        ON lat.emp_id = emp.emp_id
-	    LEFT JOIN madaka.train_mst AS tra
-	        ON lat.train_id = tra.train_id
-	    WHERE
-	    	lat.late_id = #{lateId}
-	    	ORDER BY lat.late_datetime DESC
-	</select>
+<select id="selectByLateId" resultType="com.example.madaka.response.DetailResponse">
+	SELECT
+		lat.late_id,
+		emp.emp_id,
+		CONCAT(emp.emp_lname, ' ', emp.emp_fname) AS emp_name,
+		lat.late_datetime,
+		lat.late_reason,
+		lat.late_min,
+		lat.train_delay_min,
+		tra.train_name,
+		lat.start_time,
+		lat.update_datetime,
+		lat.note
+	FROM
+		madaka.late_his_tbl AS lat
+	INNER JOIN madaka.employee_mst AS emp
+		ON lat.emp_id = emp.emp_id
+	LEFT JOIN madaka.train_mst AS tra
+		ON lat.train_id = tra.train_id
+	WHERE
+		lat.late_id = #{lateId}
+		ORDER BY lat.late_datetime DESC
+</select>
 
+<update id="updateArrival">
+	UPDATE madaka.late_his_tbl
+	SET late_min = #{lateMin}
+	WHERE late_id = #{lateId}
+</update>
 </mapper>

@@ -22,6 +22,8 @@ public class DetailForm {
 	private Integer trainDelayMinutes;
 	// 始業時間
 	private LocalTime startTime;
+	// 遅刻時間
+	private String lateMin;
 	// 備考
 	private String note;
 
